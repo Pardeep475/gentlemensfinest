@@ -1,19 +1,13 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:gentleman_finest/network/modal/login_api_response.dart';
-import 'package:get/get_utils/get_utils.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:uuid/uuid.dart';
 import '../common/app_strings.dart';
 import '../common/local_storage/session_manager.dart';
 import '../common/utils.dart';
 import 'api_constants.dart';
 import 'logging_interceptor.dart';
-import 'modal/add_and_remove_watch_list_api_response.dart';
+import 'modal/notification_api_response.dart';
 
-typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
 class ApiProvider {
   static final ApiProvider apiProvider = ApiProvider._internal();
@@ -25,7 +19,7 @@ class ApiProvider {
 
   ApiProvider._internal();
 
-  static final sessionToken = Uuid().v4();
+  static final sessionToken = const Uuid().v4();
 
   static BaseOptions options =
       BaseOptions(receiveTimeout: 90000000, connectTimeout: 90000000);
@@ -52,6 +46,30 @@ class ApiProvider {
     } catch (error) {
       Utils.errorSnackBar(AppStrings.error, error.toString());
       return null;
+    }
+  }
+
+  Future<dynamic> getNotificationApi(
+      {required dynamic acceptList, required dynamic rejectedList}) async {
+    try {
+      String language = await SessionManager.getLanguage();
+      String lang = "en";
+      if (language == AppStrings.german) {
+        lang = "ge";
+      }
+      Escort? userData = await Utils.getUserData();
+      if (userData == null) return;
+      var headerOptions = Options(headers: {
+        // 'Authorization': 'Bearer ${userData.token}',
+        'language': lang,
+      });
+      Utils.logger.e("token_is:-   ${userData.token}");
+      Response response = await _dio.get(
+          "${ApiConstants.getNotificationApi}?token=${userData.token}&acceptedList=$acceptList&rejectedList=$rejectedList",
+          options: headerOptions);
+      return NotificationApiResponse.fromJson(response.data).bookingInfo;
+    } catch (error) {
+      return NotificationApiResponse(statusCode: 0, message: error.toString());
     }
   }
 

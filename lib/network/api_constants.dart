@@ -14,7 +14,8 @@ class ApiConstants {
 
   // live
   static String onLoginApi = "${baseUrl}escort-login";
-
+  static String getNotificationApi = "${baseUrl}escort-notification";
+  //https://amitjana.com/gentlemens/wp-json/api/escort-notification?token=NDE4NA==&acceptedList=1&rejectedList=1
 
   // development
   // static String onBoardingApi = "${baseUrl}onBoardingApi";

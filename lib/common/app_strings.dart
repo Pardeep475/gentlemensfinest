@@ -35,6 +35,7 @@ class AppStrings {
   static const String loggedInHeidi = "logged_in_heidi";
   static const String requestsAcceptedLists = "requests_accepted_lists";
   static const String requestsRejectedLists = "requests_rejected_lists";
+  static const String requestsAllNotificationLists = "requests_all_lists";
   static const String logOut = "log_out";
   static const String notification = "notification";
   static const String viewMoreDetails = "view_more_details";

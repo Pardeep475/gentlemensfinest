@@ -3,17 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gentleman_finest/common/app_color.dart';
 import 'package:gentleman_finest/common/app_images.dart';
+import 'package:gentleman_finest/common/local_storage/session_manager.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_strings.dart';
+import '../../../common/routes/route_strings.dart';
 import '../../../common/utils.dart';
 import '../../../common/widget/app_text.dart';
+import '../controller/dashboard_controller.dart';
 import 'item_child_login.dart';
 import 'item_header_dialog.dart';
 import 'item_logout.dart';
 
 class ItemLoginProfile extends StatelessWidget {
-  const ItemLoginProfile({Key? key}) : super(key: key);
+  const ItemLoginProfile({required this.controller, Key? key})
+      : super(key: key);
+  final DashboardController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +40,43 @@ class ItemLoginProfile extends StatelessWidget {
               children: [
                 ItemHeaderDialog(
                   title: AppStrings.loggedInHeidi.tr,
-                  onBackPressed: () {},
+                  onBackPressed: () => controller.updateHamburgerPressed(false),
+                ),
+                ItemChildLogin(
+                  title: AppStrings.requestsAllNotificationLists.tr,
+                  onPressed: () {
+                    debugPrint('1 clicked');
+                    controller.updateHamburgerPressed(false);
+                    controller.updateNotificationType(0);
+                    controller.fetchNotificationApi(
+                        acceptList: 1, rejectList: 1);
+                  },
                 ),
                 ItemChildLogin(
                   title: AppStrings.requestsAcceptedLists.tr,
                   onPressed: () {
                     debugPrint('1 clicked');
+                    controller.updateHamburgerPressed(false);
+                    controller.updateNotificationType(1);
+                    controller.fetchNotificationApi(
+                        acceptList: 'yes', rejectList: 'no');
                   },
                 ),
                 ItemChildLogin(
-                    title: AppStrings.requestsAcceptedLists.tr,
+                    title: AppStrings.requestsRejectedLists.tr,
                     onPressed: () {
                       debugPrint('1 clicked');
+                      controller.updateHamburgerPressed(false);
+                      controller.updateNotificationType(2);
+                      controller.fetchNotificationApi(
+                          acceptList: 'no', rejectList: 'yes');
                     }),
-                const ItemLogout(),
+                ItemLogout(
+                  onLogoutPressed: () async {
+                    await SessionManager.clearAllData();
+                    Get.offAndToNamed(RouteString.loginScreen);
+                  },
+                ),
               ],
             ),
           ),

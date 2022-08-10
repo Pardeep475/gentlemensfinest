@@ -28,5 +28,6 @@ class AppImages {
   static const imgAcceptedBackground = "assets/images/img_accepted_background.png";
   static const imgRejectedBackground = "assets/images/img_rejected_background.png";
   static const imgNotificationBackground = "assets/images/img_notification_background.png";
+  static const imgLoginBackground = "assets/images/img_login_background.png";
 
 }

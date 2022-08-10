@@ -33,7 +33,7 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.center,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(AppImages.imgLogin),
+                  image: AssetImage(AppImages.imgLoginBackground),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -76,11 +76,14 @@ class LoginScreen extends StatelessWidget {
                             _controller.validatePassword(value: value),
                       ),
                       SizedBox(
-                        height: 100.h,
+                        height: 150.h,
                       ),
                       AppButton(
                         txt: AppStrings.login.tr,
                         onPressed: () => _loginClickListener(),
+                      ),
+                      SizedBox(
+                        height: 50.h,
                       ),
                     ],
                   ),

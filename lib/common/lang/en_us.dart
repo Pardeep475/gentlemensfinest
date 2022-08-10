@@ -28,5 +28,6 @@ const Map<String, String> enUS = {
   'date_and_time': 'Date & Time -',
   'duration': 'Duration -',
   'location': 'Location -',
-  'detailed_info': 'Detailed Info -'
+  'detailed_info': 'Detailed Info -',
+  'requests_all_lists': 'Requests All Notification Lists',
 };

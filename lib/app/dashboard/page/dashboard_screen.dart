@@ -1,76 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gentleman_finest/app/dashboard/controller/dashboard_controller.dart';
+import 'package:gentleman_finest/common/local_storage/session_manager.dart';
+import 'package:get/get.dart';
 
+import '../../../common/app_color.dart';
 import '../../../common/app_images.dart';
 import '../../../common/app_strings.dart';
 import '../../../common/widget/app_text.dart';
 import '../../../common/widget/custom_app_bar.dart';
 import '../../../common/widget/item_empty_notification.dart';
 import '../widget/item_login_profile.dart';
+import '../widget/item_logout.dart';
 import '../widget/item_profile_screen.dart';
 import 'all_notification_screen.dart';
 
-class DashboardScreen extends StatelessWidget {
-  DashboardScreen({Key? key}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  State<StatefulWidget> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  final DashboardController _controller =
+      Get.isRegistered<DashboardController>()
+          ? Get.find<DashboardController>()
+          : Get.put(DashboardController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _controller.fetchNotificationApi(acceptList: 1, rejectList: 1);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      endDrawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: AppText(
-                textAlign: TextAlign.start,
-                text: 'Albert Huston',
-                color: Colors.black,
-                fontFamily: AppStrings.outfitFont,
-                fontWeight: FontWeight.w700,
-                textSize: 15.sp,
-              ),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-        elevation: 1,
-      ),
-      // drawerScrimColor: Colors.white,
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(AppImages.imgRejectedBackground),
-                  fit: BoxFit.fill,
+            child: Obx(() {
+              if (_controller.onHamburgerPressed.value ||
+                  _controller.showLoader.value ||
+                  (!_controller.showLoader.value &&
+                      _controller.dataList.isEmpty)) {
+                return const SizedBox();
+              }
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(_controller.getNotificationBackground()),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
           Positioned.fill(
             child: Column(
@@ -79,15 +67,49 @@ class DashboardScreen extends StatelessWidget {
                   height: kToolbarHeight * 0.7,
                 ),
                 CustomAppBar(
-                  onHamburgerPressed: () {
-                    debugPrint('click:---- - -- - - - - -');
-                    _scaffoldKey.currentState!.openEndDrawer();
-                  },
+                  onHamburgerPressed: () => _controller.updateHamburgerPressed(
+                      !_controller.onHamburgerPressed.value),
                 ),
-                const Expanded(
-                  child: AllNotificationScreen(),
+                Expanded(
+                  child: Obx(() {
+                    if (_controller.onHamburgerPressed.value) {
+                      return ItemLoginProfile(
+                        controller: _controller,
+                      );
+                    } else if (_controller.showLoader.value) {
+                      return const SizedBox();
+                    } else if (!_controller.showLoader.value &&
+                        _controller.dataList.isEmpty) {
+                      return const ItemEmptyNotification();
+                    }
+                    return AllNotificationScreen(
+                      notificationScreenType:
+                          _controller.notificationScreenType.value,
+                      dataList: _controller.dataList,
+                      controller: _controller,
+                    );
+                  }),
                 )
               ],
+            ),
+          ),
+          Obx(
+            () => Positioned.fill(
+              child: _controller.showLoader.value
+                  ? Container(
+                      color: Colors.transparent,
+                      width: Get.width,
+                      height: Get.height,
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(AppColor.red),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 0,
+                    ),
             ),
           ),
         ],

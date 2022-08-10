@@ -11,6 +11,7 @@ const Map<String, String> deDE = {
       'Tap the bell icon above and check again.',
   'logged_in_heidi': 'Logged in - heidi',
   'requests_accepted_lists': 'Requests Accepted Lists',
+  'requests_all_lists': 'Requests All Notification Lists',
   'requests_rejected_lists': 'Requests Rejected Lists',
   'log_out': 'Log Out',
   'notification': 'Notification',

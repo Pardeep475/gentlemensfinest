@@ -2,14 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gentleman_finest/common/widget/app_text.dart';
+import 'package:gentleman_finest/network/modal/login_api_response.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-
 import 'app_color.dart';
 import 'app_strings.dart';
+import 'local_storage/session_manager.dart';
 
-enum UrlType { IMAGE, VIDEO, UNKNOWN }
 
 class Utils {
   static final Utils _utils = Utils._internal();
@@ -120,5 +119,13 @@ class Utils {
     }
   }
 
+  static Future<Escort?> getUserData() async {
+    String? value = await SessionManager.getUserData();
+    if (value != null) {
+      return escortResponseFromJson(value);
+    } else {
+      return null;
+    }
+  }
 
 }

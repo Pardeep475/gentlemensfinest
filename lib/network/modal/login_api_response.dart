@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-LoginApiResponse loginApiResponseFromJson(String str) => LoginApiResponse.fromJson(json.decode(str));
+Escort escortResponseFromJson(String str) => Escort.fromJson(json.decode(str));
 
 String escortResponseToJson(Escort data) => json.encode(data.toJson());
 
