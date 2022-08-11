@@ -16,6 +16,8 @@ class DashboardController extends GetxController {
 
   RxList<BookingInfo> dataList = RxList();
 
+  var itemProfileOpen = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,6 +38,7 @@ class DashboardController extends GetxController {
 
   reset() {
     showLoader.value = false;
+    itemProfileOpen.value = false;
     onHamburgerPressed.value = false;
     notificationScreenType.value = 0;
     dataList = RxList();

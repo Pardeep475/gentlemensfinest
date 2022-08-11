@@ -44,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Positioned.fill(
             child: Obx(() {
-              if (_controller.onHamburgerPressed.value ||
+              if (_controller.onHamburgerPressed.value || _controller.itemProfileOpen.value ||
                   _controller.showLoader.value ||
                   (!_controller.showLoader.value &&
                       _controller.dataList.isEmpty)) {
@@ -76,6 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       return ItemLoginProfile(
                         controller: _controller,
                       );
+                    } else if (_controller.itemProfileOpen.value){
+                      return const ItemProfileScreen();
                     } else if (_controller.showLoader.value) {
                       return const SizedBox();
                     } else if (!_controller.showLoader.value &&
