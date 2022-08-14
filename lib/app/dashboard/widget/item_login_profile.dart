@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gentleman_finest/common/app_color.dart';
 import 'package:gentleman_finest/common/app_images.dart';
 import 'package:gentleman_finest/common/local_storage/session_manager.dart';
+import 'package:gentleman_finest/common/services/localization_service.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_strings.dart';
@@ -71,6 +72,12 @@ class ItemLoginProfile extends StatelessWidget {
                       controller.fetchNotificationApi(
                           acceptList: 'no', rejectList: 'yes');
                     }),
+                ItemChildLogin(
+                    title: AppStrings.changeLanguage.tr,
+                    onPressed: () {
+                      debugPrint('1 clicked');
+                      openChangeLanguageDialog(context: context);
+                    }),
                 ItemLogout(
                   onLogoutPressed: () async {
                     await SessionManager.clearAllData();
@@ -86,5 +93,49 @@ class ItemLoginProfile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  openChangeLanguageDialog({required BuildContext context}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Wrap(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0)),
+                  child: Column(
+                    children: [
+                      ItemHeaderDialog(
+                        title: AppStrings.changeLanguage.tr,
+                        onBackPressed: () => Navigator.pop(context),
+                      ),
+                      ItemChildLogin(
+                          title: AppStrings.englishLanguage.tr,
+                          onPressed: () {
+                            SessionManager.setLanguage(AppStrings.english);
+                            LocalizationService service = LocalizationService();
+                            service.changeLocale(AppStrings.english);
+                            Navigator.pop(context);
+                          }),
+                      ItemChildLogin(
+                          title: AppStrings.germanLanguage.tr,
+                          onPressed: () {
+                            SessionManager.setLanguage(AppStrings.german);
+                            LocalizationService service = LocalizationService();
+                            service.changeLocale(AppStrings.german);
+                            Navigator.pop(context);
+                          }),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

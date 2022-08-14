@@ -1,6 +1,7 @@
 const Map<String, String> enUS = {
   'gentleman_description': 'Welcome to Gentlemen’s\nFinest',
   'enter_your_email': 'Enter your email',
+  'check_your_internet_connectivity': 'Check your internet connectivity',
   'enter_your_password': 'Enter your password',
   'login': 'Login',
   'email_is_required': 'Email is required',
@@ -30,5 +31,8 @@ const Map<String, String> enUS = {
   'location': 'Location -',
   'detailed_info': 'Detailed Info -',
   'requests_all_lists': 'Requests All Notification Lists',
-  'something_went_wrong': 'Something went wrong'
+  'something_went_wrong': 'Something went wrong',
+  'change_language': 'Change Language',
+  'english': 'English',
+  'german': 'German',
 };

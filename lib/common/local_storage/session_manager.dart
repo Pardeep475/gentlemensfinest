@@ -30,9 +30,9 @@ class SessionManager {
         (value) => value.setString(StorageStrings.setUpLanguage, language));
   }
 
-  static Future<String> getLanguage() {
+  static Future<String?> getLanguage() {
     return _pref.then(
-        (value) => value.getString(StorageStrings.setUpLanguage) ?? "enUS");
+        (value) => value.getString(StorageStrings.setUpLanguage));
   }
 
 
@@ -47,8 +47,11 @@ class SessionManager {
   }
 
   static clearAllData() async {
-    String language = await getLanguage();
+    String? language = await getLanguage();
     _pref.then((value) => value.clear());
-    setLanguage(language);
+    if(language != null){
+      setLanguage(language);
+    }
+
   }
 }

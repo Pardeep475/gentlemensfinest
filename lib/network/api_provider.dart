@@ -33,9 +33,9 @@ class ApiProvider {
       var map = <String, dynamic>{};
       map['username'] = userName;
       map['password'] = password;
-      String language = await SessionManager.getLanguage();
+      String? language = await SessionManager.getLanguage();
       String lang = "en";
-      if (language == AppStrings.german) {
+      if (language != null && language == AppStrings.german) {
         lang = "ge";
       }
       var headerOptions = Options(headers: {
@@ -53,9 +53,9 @@ class ApiProvider {
   Future<dynamic> getNotificationApi(
       {required dynamic acceptList, required dynamic rejectedList}) async {
     try {
-      String language = await SessionManager.getLanguage();
+      String? language = await SessionManager.getLanguage();
       String lang = "en";
-      if (language == AppStrings.german) {
+      if (language != null && language == AppStrings.german) {
         lang = "ge";
       }
       Escort? userData = await Utils.getUserData();
@@ -76,9 +76,9 @@ class ApiProvider {
 
   Future<dynamic> getBookingDetailsApi({required int bookingId}) async {
     try {
-      String language = await SessionManager.getLanguage();
+      String? language = await SessionManager.getLanguage();
       String lang = "en";
-      if (language == AppStrings.german) {
+      if (language != null && language == AppStrings.german) {
         lang = "ge";
       }
       Escort? userData = await Utils.getUserData();
@@ -103,9 +103,9 @@ class ApiProvider {
   Future<dynamic> acceptAndRejectApi(
       {required int bookingId, required int acceptReject}) async {
     try {
-      String language = await SessionManager.getLanguage();
+      String? language = await SessionManager.getLanguage();
       String lang = "en";
-      if (language == AppStrings.german) {
+      if (language != null && language == AppStrings.german) {
         lang = "ge";
       }
       Escort? userData = await Utils.getUserData();

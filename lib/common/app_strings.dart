@@ -55,4 +55,7 @@ class AppStrings {
   static const String detailedInfo = "detailed_info";
   static const String notifications = "notifications";
   static const String somethingWentWrong = "something_went_wrong";
+  static const String changeLanguage = "change_language";
+  static const String englishLanguage = "english";
+  static const String germanLanguage = "german";
 }
