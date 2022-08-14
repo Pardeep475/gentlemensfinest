@@ -54,4 +54,5 @@ class AppStrings {
   static const String location = "location";
   static const String detailedInfo = "detailed_info";
   static const String notifications = "notifications";
+  static const String somethingWentWrong = "something_went_wrong";
 }

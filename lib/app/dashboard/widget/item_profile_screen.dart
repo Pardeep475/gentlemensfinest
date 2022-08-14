@@ -5,11 +5,18 @@ import 'package:get/get.dart';
 import '../../../common/app_color.dart';
 import '../../../common/app_images.dart';
 import '../../../common/app_strings.dart';
+import '../../../network/modal/booking_details_api_response.dart';
+import '../controller/dashboard_controller.dart';
 import 'item_child_profile.dart';
 import 'item_header_dialog.dart';
 
 class ItemProfileScreen extends StatelessWidget {
-  const ItemProfileScreen({Key? key}) : super(key: key);
+  const ItemProfileScreen(
+      {required this.controller, required this.bookingInfo, Key? key})
+      : super(key: key);
+
+  final DashboardController controller;
+  final BookingDetails bookingInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -31,45 +38,45 @@ class ItemProfileScreen extends StatelessWidget {
               children: [
                 ItemHeaderDialog(
                   title: AppStrings.detailsFor.tr,
-                  onBackPressed: () {},
+                  onBackPressed: () {
+                    controller.updateItemProfileOpenPressed(false);
+                  },
                 ),
                 ItemChildProfile(
-                  title: '${AppStrings.phone.tr}\n(415) 555 - 3046',
-                  icon: AppImages.iconPhone,
+                  title: '${AppStrings.phone.tr}\n${bookingInfo.phoneNumber}',
+                  icon: AppImages.imgPhone,
                   onPressed: () {
                     debugPrint('1 clicked');
                   },
                 ),
                 ItemChildProfile(
-                  title: '${AppStrings.email.tr}\nalbert@gmail.com',
-                  icon: AppImages.iconEmail,
+                  title: '${AppStrings.email.tr}\n${bookingInfo.customerEmail}',
+                  icon: AppImages.imgEmail,
                   onPressed: () {
                     debugPrint('1 clicked');
                   },
                 ),
                 ItemChildProfile(
                   title: AppStrings.desiredModel.tr,
-                  icon: AppImages.iconModal,
+                  icon: AppImages.imgModal,
                   content:
-                      'You Should wear sexy lingerie with stocking matching the same color, minimal make-up.',
+                      bookingInfo.desiredModel,
                   onPressed: () {
                     debugPrint('1 clicked');
                   },
                 ),
                 ItemChildProfile(
                   title: AppStrings.dateAndTime.tr,
-                  icon: AppImages.iconModal,
-                  content:
-                      '15-july-2022, 12:30 AM Duration - 3 Hours',
+                  icon: AppImages.imgClock,
+                  content: '${bookingInfo.desiredDate}, ${bookingInfo.desiredTime} ${AppStrings.duration.tr} ${bookingInfo.duration}',
                   onPressed: () {
                     debugPrint('1 clicked');
                   },
                 ),
                 ItemChildProfile(
                   title: AppStrings.location.tr,
-                  icon: AppImages.iconModal,
-                  content:
-                      'Geneva, Switzerland',
+                  icon: AppImages.imgLocation,
+                  content: bookingInfo.location,
                   onPressed: () {
                     debugPrint('1 clicked');
                   },
@@ -77,9 +84,9 @@ class ItemProfileScreen extends StatelessWidget {
                 ItemChildProfile(
                   isDivider: false,
                   title: AppStrings.detailedInfo.tr,
-                  icon: AppImages.iconInfo,
+                  icon: AppImages.imgInfo,
                   content:
-                      'You Should wear sexy lingerie with stocking matching the same color, minimal make-up.',
+                      bookingInfo.aboutCustomer,
                   onPressed: () {
                     debugPrint('1 clicked');
                   },

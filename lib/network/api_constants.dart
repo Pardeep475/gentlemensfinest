@@ -15,6 +15,8 @@ class ApiConstants {
   // live
   static String onLoginApi = "${baseUrl}escort-login";
   static String getNotificationApi = "${baseUrl}escort-notification";
+  static String getBookingDetailsApi = "${baseUrl}booking-details";
+  static String acceptAndRejectApi = "${baseUrl}escot-response";
   //https://amitjana.com/gentlemens/wp-json/api/escort-notification?token=NDE4NA==&acceptedList=1&rejectedList=1
 
   // development

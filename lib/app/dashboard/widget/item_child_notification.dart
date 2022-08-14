@@ -42,17 +42,7 @@ class ItemChildNotification extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            AppText(
-              textAlign: TextAlign.center,
-              text: AppStrings.today.tr,
-              color: Colors.black,
-              fontFamily: AppStrings.outfitFont,
-              fontWeight: FontWeight.w500,
-              textSize: 22.sp,
-            ),
-            SizedBox(
-              height: 28.h,
-            ),
+
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,

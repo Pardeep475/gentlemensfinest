@@ -29,5 +29,11 @@ class AppImages {
   static const imgRejectedBackground = "assets/images/img_rejected_background.png";
   static const imgNotificationBackground = "assets/images/img_notification_background.png";
   static const imgLoginBackground = "assets/images/img_login_background.png";
+  static const imgPhone = "assets/images/img_phone.png";
+  static const imgEmail = "assets/images/img_email.png";
+  static const imgModal = "assets/images/img_modal.png";
+  static const imgClock = "assets/images/img_date_and_time.png";
+  static const imgLocation = "assets/images/img_location.png";
+  static const imgInfo = "assets/images/img_info.png";
 
 }

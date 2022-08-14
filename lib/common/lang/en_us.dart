@@ -30,4 +30,5 @@ const Map<String, String> enUS = {
   'location': 'Location -',
   'detailed_info': 'Detailed Info -',
   'requests_all_lists': 'Requests All Notification Lists',
+  'something_went_wrong': 'Something went wrong'
 };

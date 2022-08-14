@@ -29,5 +29,6 @@ const Map<String, String> deDE = {
   'date_and_time': 'Date & Time -',
   'duration': 'Duration -',
   'location': 'Location -',
-  'detailed_info': 'Detailed Info -'
+  'detailed_info': 'Detailed Info -',
+  'something_went_wrong': 'Something went wrong'
 };

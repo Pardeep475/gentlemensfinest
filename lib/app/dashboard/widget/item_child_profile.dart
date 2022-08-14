@@ -41,7 +41,7 @@ class ItemChildProfile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                      height: content.isEmpty ? 10.h:14.h,
+                      height: content.isEmpty ? 10.h : 14.h,
                     ),
                     AppText(
                       textAlign: TextAlign.start,
@@ -56,16 +56,16 @@ class ItemChildProfile extends StatelessWidget {
                     content.isEmpty
                         ? const SizedBox()
                         : AppText(
-                          textAlign: TextAlign.start,
-                          text: content,
-                          color: Colors.black54,
-                          maxLines: 2,
-                          fontFamily: AppStrings.outfitFont,
-                          fontWeight: FontWeight.w700,
-                          textSize: 12.sp,
-                        ),
+                            textAlign: TextAlign.start,
+                            text: content,
+                            color: Colors.black54,
+                            maxLines: 2,
+                            fontFamily: AppStrings.outfitFont,
+                            fontWeight: FontWeight.w700,
+                            textSize: 12.sp,
+                          ),
                     SizedBox(
-                      height: content.isEmpty ? 10.h:14.h,
+                      height: content.isEmpty ? 10.h : 14.h,
                     ),
                   ],
                 ),
@@ -73,17 +73,22 @@ class ItemChildProfile extends StatelessWidget {
               SizedBox(
                 width: 20.w,
               ),
-              SvgPicture.asset(icon),
+              Image.asset(
+                icon,
+                height: 28.r,
+                width: 28.h,
+              ),
               SizedBox(
                 width: 20.w,
               ),
-
             ],
           ),
-          isDivider ? Divider(
-            height: 1.h,
-            color: AppColor.red,
-          ) : const SizedBox(),
+          isDivider
+              ? Divider(
+                  height: 1.h,
+                  color: AppColor.red,
+                )
+              : const SizedBox(),
         ],
       ),
     );
