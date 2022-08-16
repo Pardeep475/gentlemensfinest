@@ -144,7 +144,7 @@ class DashboardController extends GetxController {
 
           int value  = dataList.indexWhere((p0) => p0.bookingId == bookingId);
           BookingInfo info = dataList[value];
-          info.acceptStatus = acceptReject is int ? '1' : '2';
+          info.acceptStatus = acceptReject == 'yes' ? '1' : '2';
           dataList[value] = info;
           dataList.refresh();
 

@@ -122,13 +122,13 @@ class AllNotificationScreen extends StatelessWidget {
       case 0:
         {
           // accept list
-          controller.acceptAndRejectApi(bookingId: id, acceptReject: 1);
+          controller.acceptAndRejectApi(bookingId: id, acceptReject: 'yes');
         }
         break;
       case 1:
         {
           // reject list
-          controller.acceptAndRejectApi(bookingId: id, acceptReject: '0');
+          controller.acceptAndRejectApi(bookingId: id, acceptReject: 'no');
         }
         break;
       case 2:
