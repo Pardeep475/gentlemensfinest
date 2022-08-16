@@ -158,6 +158,9 @@ class Utils {
   static bool checkIfDatesExistInCurrentWeek(DateTime currentDate){
     DateTime firstDate = findFirstDateOfTheWeek();
     DateTime lastDate = findLastDateOfTheWeek();
-    return firstDate.isAfter(currentDate) && lastDate.isBefore(currentDate);
+
+    return currentDate.isAfter(firstDate.subtract(const Duration(days: 1))) && currentDate.isBefore(lastDate);
+
+    // return (firstDate.isAfter(currentDate) && lastDate.isBefore(currentDate));
   }
 }

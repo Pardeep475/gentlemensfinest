@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gentleman_finest/common/app_images.dart';
 
+import '../utils.dart';
+
 class CustomAppBar extends StatelessWidget {
   final VoidCallback onHamburgerPressed;
 

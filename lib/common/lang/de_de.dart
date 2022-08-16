@@ -10,7 +10,7 @@ const Map<String, String> deDE = {
   'nothing_here': 'Nichts hier!!!',
   'tap_the_bell_icon_above_and_check_again':
       'Tippen Sie oben auf das Glockensymbol und überprüfen Sie es erneut.',
-  'logged_in_heidi': 'Eingeloggt - heidi',
+  'logged_in_heidi': 'Eingeloggt - ',
   'requests_accepted_lists': 'Listen akzeptierter Anfragen',
   'requests_all_lists': 'Fordert alle Benachrichtigungslisten an',
   'requests_rejected_lists': 'Listen mit abgelehnten Anfragen',
@@ -23,7 +23,7 @@ const Map<String, String> deDE = {
   'this_week': 'In dieser Woche',
   'you_have': 'Du hast',
   'notifications': 'Benachrichtigungen',
-  'details_for': 'Details für',
+  'details_for': 'Details für ',
   'phone': 'Telefon -',
   'email': 'Email -',
   'desired_model': 'Gewünschtes Modell -',
@@ -36,4 +36,6 @@ const Map<String, String> deDE = {
   'english': 'English',
   'german': 'German',
   'older': 'Älter',
+  'requests_accepted': 'Anfragen akzeptiert',
+  'requests_rejected': 'Anfragen abgelehnt',
 };

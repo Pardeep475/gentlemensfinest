@@ -58,7 +58,7 @@ class LoginController extends GetxController {
         if (response != null) {
           Escort? userData = (response as LoginApiResponse).escort;
           if(userData != null){
-            Utils.logger.e("token_is:-   ${userData.token}");
+            Utils.logger.e("token_is:-   ${userData.name}");
             SessionManager.setUserData(userData);
             SessionManager.setLogin(true);
             Get.offAndToNamed(RouteString.dashBoardScreen,);

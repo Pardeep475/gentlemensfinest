@@ -37,7 +37,7 @@ class ItemProfileScreen extends StatelessWidget {
             child: Column(
               children: [
                 ItemHeaderDialog(
-                  title: AppStrings.detailsFor.tr,
+                  title: AppStrings.detailsFor.tr + bookingInfo.customerName,
                   onBackPressed: () {
                     controller.updateItemProfileOpenPressed(false);
                   },

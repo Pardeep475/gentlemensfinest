@@ -160,8 +160,8 @@ class ItemChildNotification extends StatelessWidget {
             SizedBox(
               height: 16.h,
             ),
-            const Divider(
-              color: Color(0xff7E7B7B),
+             Container(
+              color: const Color(0xff7E7B7B),
               height: 1,
             ),
           ],

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gentleman_finest/common/app_color.dart';
-import 'package:gentleman_finest/common/app_images.dart';
 import 'package:gentleman_finest/common/local_storage/session_manager.dart';
 import 'package:gentleman_finest/common/services/localization_service.dart';
 import 'package:get/get.dart';
@@ -10,7 +8,7 @@ import 'package:get/get.dart';
 import '../../../common/app_strings.dart';
 import '../../../common/routes/route_strings.dart';
 import '../../../common/utils.dart';
-import '../../../common/widget/app_text.dart';
+import '../../../network/modal/login_api_response.dart';
 import '../controller/dashboard_controller.dart';
 import 'item_child_login.dart';
 import 'item_header_dialog.dart';
@@ -39,10 +37,22 @@ class ItemLoginProfile extends StatelessWidget {
             ),
             child: Column(
               children: [
-                ItemHeaderDialog(
-                  title: AppStrings.loggedInHeidi.tr,
-                  onBackPressed: () => controller.updateHamburgerPressed(false),
-                ),
+                FutureBuilder<String>(
+                    future: fetchUserName(),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData){
+                        return ItemHeaderDialog(
+                          title: AppStrings.loggedInHeidi.tr + snapshot.data!,
+                          onBackPressed: () =>
+                              controller.updateHamburgerPressed(false),
+                        );
+                      }
+                      return  ItemHeaderDialog(
+                        title: AppStrings.loggedInHeidi.tr,
+                        onBackPressed: () =>
+                            controller.updateHamburgerPressed(false),
+                      );
+                    }),
                 ItemChildLogin(
                   title: AppStrings.requestsAllNotificationLists.tr,
                   onPressed: () {
@@ -137,5 +147,13 @@ class ItemLoginProfile extends StatelessWidget {
             ),
           );
         });
+  }
+
+  Future<String> fetchUserName() async {
+    Escort? data = await Utils.getUserData();
+    if (data == null) {
+      return '';
+    }
+    return data.name;
   }
 }

@@ -59,4 +59,6 @@ class AppStrings {
   static const String changeLanguage = "change_language";
   static const String englishLanguage = "english";
   static const String germanLanguage = "german";
+  static const String requestsAccepted = "requests_accepted";
+  static const String requestsRejected = "requests_rejected";
 }

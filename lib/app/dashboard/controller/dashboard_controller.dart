@@ -11,6 +11,7 @@ import '../../../network/modal/notification_api_response.dart';
 class DashboardController extends GetxController {
   // onHamburgerPressed
   var showLoader = false.obs;
+  var showLoaderAcceptAndReject = false.obs;
   var onHamburgerPressed = false.obs;
 
   // 0 = all notification, 1 = accept notification, 2 = reject notification
@@ -134,13 +135,20 @@ class DashboardController extends GetxController {
     bool value = await Utils.checkConnectivity();
     if (value) {
       try {
-        showLoader.value = true;
+        showLoaderAcceptAndReject.value = true;
         var response = await ApiProvider.apiProvider.acceptAndRejectApi(
             bookingId: bookingId, acceptReject: acceptReject);
         if (response != null) {
           // further modification
           // 0 = all notification, 1 = accept notification, 2 = reject notification
-          switch (notificationScreenType.value) {
+
+          int value  = dataList.indexWhere((p0) => p0.bookingId == bookingId);
+          BookingInfo info = dataList[value];
+          info.acceptStatus = acceptReject is int ? '1' : '2';
+          dataList[value] = info;
+          dataList.refresh();
+
+        /*  switch (notificationScreenType.value) {
             case 0:
               {
                 fetchNotificationApi(acceptList: 1, rejectList: 1);
@@ -160,12 +168,12 @@ class DashboardController extends GetxController {
               {
                 fetchNotificationApi(acceptList: 1, rejectList: 1);
               }
-          }
+          }*/
         }
       } catch (e) {
         Utils.errorSnackBar(AppStrings.error.tr, e.toString());
       } finally {
-        showLoader.value = false;
+        showLoaderAcceptAndReject.value = false;
       }
     }
     return null;

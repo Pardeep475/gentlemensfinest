@@ -37,20 +37,20 @@ class AllNotificationScreen extends StatelessWidget {
           ),
           AppText(
             textAlign: TextAlign.center,
-            text: AppStrings.notification.tr,
+            text: getNotificationTypeTitle(),
             color: Colors.black,
             fontFamily: AppStrings.outfitFont,
             fontWeight: FontWeight.w700,
             textSize: 36.sp,
           ),
           SizedBox(
-            height: 6.h,
+            height: notificationScreenType == 0 ? 6.h : 0,
           ),
-          Obx(() {
+          Visibility(visible: notificationScreenType == 0 ,child: Obx(() {
             return ItemTodayNotification(
               notification: controller.todayNotificationCount.value,
             );
-          }),
+          }),),
           Expanded(
             child: NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (overscroll) {
@@ -86,7 +86,7 @@ class AllNotificationScreen extends StatelessWidget {
                   onPressed: (value) =>
                       onClickEvent(value: value, id: element.bookingId),
                 ),
-                // order: GroupedListOrder.DESC,
+                order: GroupedListOrder.DESC,
                 itemComparator: (e1, e2) => DateFormat("dd-MMM-yyyy HH:mm:ss")
                     .parse(e2.bookingDate)
                     .compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss")
@@ -158,10 +158,21 @@ class AllNotificationScreen extends StatelessWidget {
 
   }
 
-  String groupedBy(dynamic element) {
-    var dateTime = DateFormat("dd-MMM-yyyy HH:mm:ss").parse(element.bookingDate);
-    final DateFormat formatter = DateFormat('MMMM d yyyy');
-    return formatter.format(dateTime);
+  String getNotificationTypeTitle() {
+    switch(notificationScreenType){
+      case 0:{
+        return AppStrings.notification.tr;
+      }
+      case 1:{
+        return AppStrings.requestsAccepted.tr;
+      }
+      case 2:{
+        return AppStrings.requestsRejected.tr;
+      }
+      default:{
+        return AppStrings.notification.tr;
+      }
+    }
   }
 
 }

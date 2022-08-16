@@ -101,7 +101,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           Obx(
             () => Positioned.fill(
-              child: _controller.showLoader.value
+              child: _controller.showLoader.value ||
+                      _controller.showLoaderAcceptAndReject.value
                   ? Container(
                       color: Colors.transparent,
                       width: Get.width,
