@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_images.dart';
@@ -19,6 +20,8 @@ class DashboardController extends GetxController {
 
   var itemProfileOpen = false.obs;
   BookingDetails? bookingInfo;
+
+  var todayNotificationCount = 0.obs;
 
   @override
   void onInit() {
@@ -68,7 +71,7 @@ class DashboardController extends GetxController {
             acceptList: acceptList, rejectedList: rejectList);
         dataList.clear();
         if (response != null) {
-          dataList.addAll(response as List<BookingInfo>);
+          parseNotificationData(response as List<BookingInfo>);
         }
       } catch (e) {
         Utils.errorSnackBar(AppStrings.error.tr, e.toString());
@@ -77,6 +80,11 @@ class DashboardController extends GetxController {
       }
     }
     return null;
+  }
+  
+  parseNotificationData(List<BookingInfo> response){
+    todayNotificationCount.value = response.where((element) => Utils.isSameDate(element.bookingDate)).length;
+    dataList.addAll(response);
   }
 
   String getNotificationBackground() {
@@ -122,7 +130,7 @@ class DashboardController extends GetxController {
   }
 
   Future acceptAndRejectApi(
-      {required int bookingId, required int acceptReject}) async {
+      {required int bookingId, required dynamic acceptReject}) async {
     bool value = await Utils.checkConnectivity();
     if (value) {
       try {

@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gentleman_finest/common/widget/app_text.dart';
 import 'package:gentleman_finest/network/modal/login_api_response.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'app_color.dart';
 import 'app_strings.dart';
 import 'local_storage/session_manager.dart';
-
 
 class Utils {
   static final Utils _utils = Utils._internal();
@@ -41,8 +41,7 @@ class Utils {
     Get.snackbar(
       title,
       message,
-      margin: EdgeInsets.fromLTRB(
-          10.w, 0, 10.w, 10.h),
+      margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.h),
       backgroundColor: AppColor.red.withOpacity(0.9),
       borderRadius: 5.sp,
       snackPosition: SnackPosition.BOTTOM,
@@ -75,8 +74,8 @@ class Utils {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         return true;
       } else {
-        Utils.errorSnackBar(AppStrings.error.tr,
-            AppStrings.checkYourInternetConnectivity.tr);
+        Utils.errorSnackBar(
+            AppStrings.error.tr, AppStrings.checkYourInternetConnectivity.tr);
         return false;
       }
     } on SocketException catch (_) {
@@ -85,7 +84,6 @@ class Utils {
       return false;
     }
   }
-
 
   // date format like 1967-6-7
   static DateTime stringToDateOtherFormat({var selectedDate}) {
@@ -113,7 +111,6 @@ class Utils {
       // String formattedDate = targetFormat.format(date.toLocal());
       // return DateTime.parse(formattedDate);
       return DateTime.parse(selectedDate);
-
     } catch (e) {
       return DateTime.now();
     }
@@ -128,4 +125,39 @@ class Utils {
     }
   }
 
+  static bool isSameDate(String other) {
+    var dateTime = DateFormat("dd-MMM-yyyy HH:mm:ss").parse(other);
+    var now = DateTime.now();
+
+    return now.year == dateTime.year &&
+        now.month == dateTime.month &&
+        now.day == dateTime.day;
+  }
+
+  static bool isSameDateFromDateTime(DateTime dateTime) {
+    var now = DateTime.now();
+
+    return now.year == dateTime.year &&
+        now.month == dateTime.month &&
+        now.day == dateTime.day;
+  }
+
+  /// Find the first date of the week which contains the provided date.
+  static DateTime findFirstDateOfTheWeek() {
+    DateTime dateTime = DateTime.now();
+    return dateTime.subtract(Duration(days: dateTime.weekday - 1));
+  }
+
+  /// Find last date of the week which contains provided date.
+  static DateTime findLastDateOfTheWeek() {
+    DateTime dateTime = DateTime.now();
+    return dateTime
+        .add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+  }
+
+  static bool checkIfDatesExistInCurrentWeek(DateTime currentDate){
+    DateTime firstDate = findFirstDateOfTheWeek();
+    DateTime lastDate = findLastDateOfTheWeek();
+    return firstDate.isAfter(currentDate) && lastDate.isBefore(currentDate);
+  }
 }

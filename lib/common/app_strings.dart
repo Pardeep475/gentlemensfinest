@@ -43,6 +43,7 @@ class AppStrings {
   static const String reject = "reject";
   static const String today = "today";
   static const String thisWeek = "this_week";
+  static const String older = "older";
   static const String youHave = "you_have";
   static const String notificationsToday = "notifications_today";
   static const String detailsFor = "details_for";

@@ -46,45 +46,53 @@ class AllNotificationScreen extends StatelessWidget {
           SizedBox(
             height: 6.h,
           ),
-          const ItemTodayNotification(
-            notification: 3,
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
+          Obx(() {
+            return ItemTodayNotification(
+              notification: controller.todayNotificationCount.value,
+            );
+          }),
           Expanded(
-            child: GroupedListView<dynamic, String>(
-              elements: dataList,
-              groupBy: (dynamic element) => DateFormat("dd-MMM-yyyy HH:mm:ss")
-                  .parse(element.bookingDate)
-                  .toString(),
-              groupSeparatorBuilder: (dynamic element) => Container(
-                margin: EdgeInsets.only(top: 20.h),
-                alignment: Alignment.centerLeft,
-                child: AppText(
-                  textAlign: TextAlign.center,
-                  text: fetchDataAndTime(element),
-                  color: Colors.black,
-                  fontFamily: AppStrings.outfitFont,
-                  fontWeight: FontWeight.w500,
-                  textSize: 22.sp,
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overscroll) {
+                overscroll.disallowIndicator();
+                return true;
+              },
+              child: GroupedListView<dynamic, String>(
+                physics: const BouncingScrollPhysics(
+                    parent: ClampingScrollPhysics()),
+                shrinkWrap: true,
+                elements: dataList,
+                padding: EdgeInsets.only(top: 20.h,bottom: 20.h),
+                groupBy: (dynamic element) => element.groupBy,
+                // groupComparator: (value1, value2) => value2.compareTo(value1),
+                groupSeparatorBuilder: (dynamic element) => Container(
+                  margin: EdgeInsets.only(top: 20.h),
+                  alignment: Alignment.centerLeft,
+                  child: AppText(
+                    textAlign: TextAlign.center,
+                    // text: fetchDataAndTime(element),
+                    text: element,
+                    color: Colors.black,
+                    fontFamily: AppStrings.outfitFont,
+                    fontWeight: FontWeight.w500,
+                    textSize: 22.sp,
+                  ),
                 ),
+                indexedItemBuilder: (context, dynamic element, int index) =>
+                    ItemChildNotification(
+                  item: element,
+                  index: index,
+                  length: dataList.length,
+                  onPressed: (value) =>
+                      onClickEvent(value: value, id: element.bookingId),
+                ),
+                // order: GroupedListOrder.DESC,
+                itemComparator: (e1, e2) => DateFormat("dd-MMM-yyyy HH:mm:ss")
+                    .parse(e2.bookingDate)
+                    .compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss")
+                        .parse(e1.bookingDate)), // optional
+                // elementIdentifier: (element) => element.name // optional - see below for usage
               ),
-              indexedItemBuilder: (context, dynamic element, int index) =>
-                  ItemChildNotification(
-                item: element,
-                index: index,
-                length: dataList.length,
-                onPressed: (value) =>
-                    onClickEvent(value: value, id: element.bookingId),
-              ),
-              shrinkWrap: true,
-              order: GroupedListOrder.DESC,
-              itemComparator: (e1, e2) => DateFormat("dd-MMM-yyyy HH:mm:ss")
-                  .parse(e1.bookingDate)
-                  .compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss")
-                      .parse(e2.bookingDate)), // optional
-              // elementIdentifier: (element) => element.name // optional - see below for usage
             ),
           ),
           // Expanded(
@@ -114,11 +122,13 @@ class AllNotificationScreen extends StatelessWidget {
       case 0:
         {
           // accept list
+          controller.acceptAndRejectApi(bookingId: id, acceptReject: 1);
         }
         break;
       case 1:
         {
           // reject list
+          controller.acceptAndRejectApi(bookingId: id, acceptReject: '0');
         }
         break;
       case 2:
@@ -138,11 +148,20 @@ class AllNotificationScreen extends StatelessWidget {
     }
   }
 
-
-  String fetchDataAndTime(dynamic element){
-    var dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(element);
-    final DateFormat formatter = DateFormat('MMMM d yyyy');
-    return formatter.format(dateTime);
+  String fetchDataAndTime(dynamic element) {
+    var dateTime = DateFormat("MMMM d yyyy").parse(element);
+    if(Utils.isSameDateFromDateTime(dateTime)){
+      return AppStrings.today.tr;
+    } else {
+      return dateTime.toString();
+    }
 
   }
+
+  String groupedBy(dynamic element) {
+    var dateTime = DateFormat("dd-MMM-yyyy HH:mm:ss").parse(element.bookingDate);
+    final DateFormat formatter = DateFormat('MMMM d yyyy');
+    return formatter.format(dateTime);
+  }
+
 }

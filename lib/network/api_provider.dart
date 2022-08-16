@@ -101,7 +101,7 @@ class ApiProvider {
   }
 
   Future<dynamic> acceptAndRejectApi(
-      {required int bookingId, required int acceptReject}) async {
+      {required int bookingId, required dynamic acceptReject}) async {
     try {
       String? language = await SessionManager.getLanguage();
       String lang = "en";

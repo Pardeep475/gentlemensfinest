@@ -35,4 +35,5 @@ const Map<String, String> deDE = {
   'change_language': 'Sprache ändern',
   'english': 'English',
   'german': 'German',
+  'older': 'Älter',
 };
