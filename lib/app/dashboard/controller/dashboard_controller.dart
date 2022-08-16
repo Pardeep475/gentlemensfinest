@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../common/app_images.dart';
 import '../../../common/app_strings.dart';
@@ -12,15 +12,12 @@ class DashboardController extends GetxController {
   // onHamburgerPressed
   var showLoader = false.obs;
   var showLoaderAcceptAndReject = false.obs;
-  var onHamburgerPressed = false.obs;
 
   // 0 = all notification, 1 = accept notification, 2 = reject notification
   var notificationScreenType = 0.obs;
 
   RxList<BookingInfo> dataList = RxList();
 
-  var itemProfileOpen = false.obs;
-  BookingDetails? bookingInfo;
 
   var todayNotificationCount = 0.obs;
 
@@ -44,19 +41,10 @@ class DashboardController extends GetxController {
 
   reset() {
     showLoader.value = false;
-    itemProfileOpen.value = false;
-    onHamburgerPressed.value = false;
     notificationScreenType.value = 0;
     dataList = RxList();
   }
 
-  void updateHamburgerPressed(bool value) {
-    onHamburgerPressed.value = value;
-  }
-
-  void updateItemProfileOpenPressed(bool value) {
-    itemProfileOpen.value = value;
-  }
 
   void updateNotificationType(int value) {
     notificationScreenType.value = value;
@@ -85,6 +73,7 @@ class DashboardController extends GetxController {
   
   parseNotificationData(List<BookingInfo> response){
     todayNotificationCount.value = response.where((element) => Utils.isSameDate(element.bookingDate)).length;
+    response.sort((a, b) => DateFormat("dd-MMM-yyyy HH:mm:ss").parse(b.bookingDate).compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(a.bookingDate)));
     dataList.addAll(response);
   }
 
@@ -110,21 +99,19 @@ class DashboardController extends GetxController {
   }
 
   Future<BookingDetails?> fetchBookingDetails({required int bookingId}) async {
-    bookingInfo = null;
     bool value = await Utils.checkConnectivity();
     if (value) {
       try {
-        showLoader.value = true;
+        showLoaderAcceptAndReject.value = true;
         var response = await ApiProvider.apiProvider
             .getBookingDetailsApi(bookingId: bookingId);
         if (response != null) {
-          bookingInfo = (response as BookingDetails);
-          return bookingInfo;
+          return (response as BookingDetails);
         }
       } catch (e) {
         Utils.errorSnackBar(AppStrings.error.tr, e.toString());
       } finally {
-        showLoader.value = false;
+        showLoaderAcceptAndReject.value = false;
       }
     }
     return null;
@@ -147,28 +134,6 @@ class DashboardController extends GetxController {
           info.acceptStatus = acceptReject == 'yes' ? '1' : '2';
           dataList[value] = info;
           dataList.refresh();
-
-        /*  switch (notificationScreenType.value) {
-            case 0:
-              {
-                fetchNotificationApi(acceptList: 1, rejectList: 1);
-              }
-              break;
-            case 1:
-              {
-                fetchNotificationApi(acceptList: 'yes', rejectList: 'no');
-              }
-              break;
-            case 2:
-              {
-                fetchNotificationApi(acceptList: 'no', rejectList: 'yes');
-              }
-              break;
-            default:
-              {
-                fetchNotificationApi(acceptList: 1, rejectList: 1);
-              }
-          }*/
         }
       } catch (e) {
         Utils.errorSnackBar(AppStrings.error.tr, e.toString());

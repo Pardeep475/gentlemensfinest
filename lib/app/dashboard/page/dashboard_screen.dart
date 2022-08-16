@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gentleman_finest/app/dashboard/controller/dashboard_controller.dart';
-import 'package:gentleman_finest/common/local_storage/session_manager.dart';
 import 'package:get/get.dart';
 
 import '../../../common/app_color.dart';
-import '../../../common/app_images.dart';
-import '../../../common/app_strings.dart';
-import '../../../common/widget/app_text.dart';
 import '../../../common/widget/custom_app_bar.dart';
 import '../../../common/widget/item_empty_notification.dart';
 import '../widget/item_login_profile.dart';
-import '../widget/item_logout.dart';
-import '../widget/item_profile_screen.dart';
 import 'all_notification_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -44,9 +37,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Positioned.fill(
             child: Obx(() {
-              if (_controller.onHamburgerPressed.value ||
-                  _controller.itemProfileOpen.value ||
-                  _controller.showLoader.value ||
+              if (_controller.showLoader.value ||
                   (!_controller.showLoader.value &&
                       _controller.dataList.isEmpty)) {
                 return const SizedBox();
@@ -68,21 +59,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   height: kToolbarHeight * 0.7,
                 ),
                 CustomAppBar(
-                  onHamburgerPressed: () => _controller.updateHamburgerPressed(
-                      !_controller.onHamburgerPressed.value),
+                  onHamburgerPressed: () => openLoginDialog(context: context),
                 ),
                 Expanded(
                   child: Obx(() {
-                    if (_controller.onHamburgerPressed.value) {
-                      return ItemLoginProfile(
-                        controller: _controller,
-                      );
-                    } else if (_controller.itemProfileOpen.value) {
-                      return ItemProfileScreen(
-                        controller: _controller,
-                        bookingInfo: _controller.bookingInfo!,
-                      );
-                    } else if (_controller.showLoader.value) {
+                    if (_controller.showLoader.value) {
                       return const SizedBox();
                     } else if (!_controller.showLoader.value &&
                         _controller.dataList.isEmpty) {
@@ -122,5 +103,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
     );
+  }
+
+  openLoginDialog({required BuildContext context}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            insetPadding:
+                EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Wrap(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0)),
+                  child: ItemLoginProfile(
+                    controller: _controller,
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

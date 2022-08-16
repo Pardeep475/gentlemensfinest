@@ -7,8 +7,10 @@ import 'package:intl/intl.dart';
 
 import '../../../common/app_strings.dart';
 import '../../../common/widget/app_text.dart';
+import '../../../network/modal/booking_details_api_response.dart';
 import '../controller/dashboard_controller.dart';
 import '../widget/item_child_notification.dart';
+import '../widget/item_profile_screen.dart';
 import '../widget/item_today_notification.dart';
 import '../../../common/utils.dart';
 
@@ -46,11 +48,14 @@ class AllNotificationScreen extends StatelessWidget {
           SizedBox(
             height: notificationScreenType == 0 ? 6.h : 0,
           ),
-          Visibility(visible: notificationScreenType == 0 ,child: Obx(() {
-            return ItemTodayNotification(
-              notification: controller.todayNotificationCount.value,
-            );
-          }),),
+          Visibility(
+            visible: notificationScreenType == 0,
+            child: Obx(() {
+              return ItemTodayNotification(
+                notification: controller.todayNotificationCount.value,
+              );
+            }),
+          ),
           Expanded(
             child: NotificationListener<OverscrollIndicatorNotification>(
               onNotification: (overscroll) {
@@ -62,7 +67,7 @@ class AllNotificationScreen extends StatelessWidget {
                     parent: ClampingScrollPhysics()),
                 shrinkWrap: true,
                 elements: dataList,
-                padding: EdgeInsets.only(top: 20.h,bottom: 20.h),
+                padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
                 groupBy: (dynamic element) => element.groupBy,
                 // groupComparator: (value1, value2) => value2.compareTo(value1),
                 groupSeparatorBuilder: (dynamic element) => Container(
@@ -81,12 +86,14 @@ class AllNotificationScreen extends StatelessWidget {
                 indexedItemBuilder: (context, dynamic element, int index) =>
                     ItemChildNotification(
                   item: element,
-                  index: index,
-                  length: dataList.length,
-                  onPressed: (value) =>
-                      onClickEvent(value: value, id: element.bookingId),
+                  lastIndexId: dataList[dataList.length -1 ].bookingId,
+                  onPressed: (value) => onClickEvent(
+                    value: value,
+                    id: element.bookingId,
+                  ),
                 ),
-                order: GroupedListOrder.DESC,
+                order: GroupedListOrder.ASC,
+                sort: false,
                 itemComparator: (e1, e2) => DateFormat("dd-MMM-yyyy HH:mm:ss")
                     .parse(e2.bookingDate)
                     .compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss")
@@ -95,22 +102,6 @@ class AllNotificationScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Expanded(
-          //   child: ListView.builder(
-          //     shrinkWrap: true,
-          //     padding: EdgeInsets.only(bottom: 20.h),
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return ItemChildNotification(
-          //         item: dataList[index],
-          //         index: index,
-          //         length: dataList.length,
-          //         onPressed: (value) =>
-          //             onClickEvent(value: value, id: dataList[index].bookingId),
-          //       );
-          //     },
-          //     itemCount: dataList.length,
-          //   ),
-          // )
         ],
       ),
     );
@@ -136,7 +127,7 @@ class AllNotificationScreen extends StatelessWidget {
           // view details
           var value = await controller.fetchBookingDetails(bookingId: id);
           if (value != null) {
-            controller.updateItemProfileOpenPressed(true);
+            openProfileDialog(bookingInfo: value);
           } else {
             Utils.errorSnackBar(
                 AppStrings.error.tr, AppStrings.somethingWentWrong.tr);
@@ -150,29 +141,57 @@ class AllNotificationScreen extends StatelessWidget {
 
   String fetchDataAndTime(dynamic element) {
     var dateTime = DateFormat("MMMM d yyyy").parse(element);
-    if(Utils.isSameDateFromDateTime(dateTime)){
+    if (Utils.isSameDateFromDateTime(dateTime)) {
       return AppStrings.today.tr;
     } else {
       return dateTime.toString();
     }
-
   }
 
   String getNotificationTypeTitle() {
-    switch(notificationScreenType){
-      case 0:{
-        return AppStrings.notification.tr;
-      }
-      case 1:{
-        return AppStrings.requestsAccepted.tr;
-      }
-      case 2:{
-        return AppStrings.requestsRejected.tr;
-      }
-      default:{
-        return AppStrings.notification.tr;
-      }
+    switch (notificationScreenType) {
+      case 0:
+        {
+          return AppStrings.notification.tr;
+        }
+      case 1:
+        {
+          return AppStrings.requestsAccepted.tr;
+        }
+      case 2:
+        {
+          return AppStrings.requestsRejected.tr;
+        }
+      default:
+        {
+          return AppStrings.notification.tr;
+        }
     }
   }
 
+  openProfileDialog({required BookingDetails bookingInfo}) {
+    showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return Dialog(
+            insetPadding:
+                EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Wrap(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0)),
+                  child: ItemProfileScreen(
+                    controller: controller,
+                    bookingInfo: bookingInfo,
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 }

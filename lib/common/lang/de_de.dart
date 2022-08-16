@@ -11,9 +11,9 @@ const Map<String, String> deDE = {
   'tap_the_bell_icon_above_and_check_again':
       'Tippen Sie oben auf das Glockensymbol und überprüfen Sie es erneut.',
   'logged_in_heidi': 'Eingeloggt - ',
-  'requests_accepted_lists': 'Listen akzeptierter Anfragen',
-  'requests_all_lists': 'Fordert alle Benachrichtigungslisten an',
-  'requests_rejected_lists': 'Listen mit abgelehnten Anfragen',
+  'requests_accepted_lists': 'Akzeptierte Listen',
+  'requests_all_lists': 'Alle Benachrichtigungslisten',
+  'requests_rejected_lists': 'Abgelehnte Listen',
   'log_out': 'Ausloggen',
   'notification': 'Benachrichtigung',
   'view_more_details': 'Weitere Details anzeigen...',

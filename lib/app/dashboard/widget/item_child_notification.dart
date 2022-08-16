@@ -11,16 +11,14 @@ import '../../../network/modal/notification_api_response.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ItemChildNotification extends StatelessWidget {
-  final int index;
-  final int length;
   final BookingInfo item;
+  final int lastIndexId;
   final Function(int value) onPressed;
 
   const ItemChildNotification(
-      {required this.index,
-      required this.length,
-      required this.item,
+      {required this.item,
       required this.onPressed,
+      required this.lastIndexId,
       Key? key})
       : super(key: key);
 
@@ -42,7 +40,6 @@ class ItemChildNotification extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -101,7 +98,8 @@ class ItemChildNotification extends StatelessWidget {
                           child: Text(
                             AppStrings.viewMoreDetails.tr,
                             style: TextStyle(
-                              color: const Color(0xff5B94EA), // Text colour here
+                              color: const Color(0xff5B94EA),
+                              // Text colour here
                               fontFamily: AppStrings.outfitFont,
                               fontWeight: FontWeight.w700,
                               fontSize: 15.sp,
@@ -158,11 +156,11 @@ class ItemChildNotification extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 16.h,
+              height: lastIndexId == item.bookingId ? 0 : 16.h,
             ),
-             Container(
+            Container(
               color: const Color(0xff7E7B7B),
-              height: 1,
+              height: lastIndexId == item.bookingId ? 0 : 1,
             ),
           ],
         ),
@@ -192,11 +190,11 @@ class ItemChildNotification extends StatelessWidget {
     }
   }
 
-  String getTimeAgoFormat(){
-    try{
-
-      return timeago.format(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(item.bookingDate));
-    } catch (e){
+  String getTimeAgoFormat() {
+    try {
+      return timeago
+          .format(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(item.bookingDate));
+    } catch (e) {
       return '';
     }
   }

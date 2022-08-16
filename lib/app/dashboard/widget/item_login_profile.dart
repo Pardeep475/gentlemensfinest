@@ -21,87 +21,79 @@ class ItemLoginProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Wrap(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColor.red, width: 0.5.r),
-            ),
-            child: Column(
-              children: [
-                FutureBuilder<String>(
-                    future: fetchUserName(),
-                    builder: (context, snapshot) {
-                      if(snapshot.hasData){
-                        return ItemHeaderDialog(
-                          title: AppStrings.loggedInHeidi.tr + snapshot.data!,
-                          onBackPressed: () =>
-                              controller.updateHamburgerPressed(false),
-                        );
-                      }
-                      return  ItemHeaderDialog(
-                        title: AppStrings.loggedInHeidi.tr,
+    return Wrap(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColor.red, width: 0.5.r),
+          ),
+          child: Column(
+            children: [
+              FutureBuilder<String>(
+                  future: fetchUserName(),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData){
+                      return ItemHeaderDialog(
+                        title: AppStrings.loggedInHeidi.tr + snapshot.data!,
                         onBackPressed: () =>
-                            controller.updateHamburgerPressed(false),
+                            Navigator.pop(context),
                       );
-                    }),
-                ItemChildLogin(
-                  title: AppStrings.requestsAllNotificationLists.tr,
+                    }
+                    return  ItemHeaderDialog(
+                      title: AppStrings.loggedInHeidi.tr,
+                      onBackPressed: () =>
+                          Navigator.pop(context),
+                    );
+                  }),
+              ItemChildLogin(
+                title: AppStrings.requestsAllNotificationLists.tr,
+                onPressed: () {
+                  debugPrint('1 clicked');
+                  controller.updateNotificationType(0);
+                  controller.fetchNotificationApi(
+                      acceptList: 1, rejectList: 1);
+                  Navigator.pop(context);
+                },
+              ),
+              ItemChildLogin(
+                title: AppStrings.requestsAcceptedLists.tr,
+                onPressed: () {
+                  debugPrint('1 clicked');
+                  controller.updateNotificationType(1);
+                  controller.fetchNotificationApi(
+                      acceptList: 'yes', rejectList: 'no');
+                  Navigator.pop(context);
+                },
+              ),
+              ItemChildLogin(
+                  title: AppStrings.requestsRejectedLists.tr,
                   onPressed: () {
                     debugPrint('1 clicked');
-                    controller.updateHamburgerPressed(false);
-                    controller.updateNotificationType(0);
+                    controller.updateNotificationType(2);
                     controller.fetchNotificationApi(
-                        acceptList: 1, rejectList: 1);
-                  },
-                ),
-                ItemChildLogin(
-                  title: AppStrings.requestsAcceptedLists.tr,
+                        acceptList: 'no', rejectList: 'yes');
+                    Navigator.pop(context);
+                  }),
+              ItemChildLogin(
+                  title: AppStrings.changeLanguage.tr,
                   onPressed: () {
                     debugPrint('1 clicked');
-                    controller.updateHamburgerPressed(false);
-                    controller.updateNotificationType(1);
-                    controller.fetchNotificationApi(
-                        acceptList: 'yes', rejectList: 'no');
-                  },
-                ),
-                ItemChildLogin(
-                    title: AppStrings.requestsRejectedLists.tr,
-                    onPressed: () {
-                      debugPrint('1 clicked');
-                      controller.updateHamburgerPressed(false);
-                      controller.updateNotificationType(2);
-                      controller.fetchNotificationApi(
-                          acceptList: 'no', rejectList: 'yes');
-                    }),
-                ItemChildLogin(
-                    title: AppStrings.changeLanguage.tr,
-                    onPressed: () {
-                      debugPrint('1 clicked');
-                      openChangeLanguageDialog(context: context);
-                    }),
-                ItemLogout(
-                  onLogoutPressed: () async {
-                    await SessionManager.clearAllData();
-                    Get.offAndToNamed(RouteString.loginScreen);
-                  },
-                ),
-              ],
-            ),
+                    openChangeLanguageDialog(context: context);
+                  }),
+              ItemLogout(
+                onLogoutPressed: () async {
+                  await SessionManager.clearAllData();
+                  Get.offAndToNamed(RouteString.loginScreen);
+                },
+              ),
+            ],
           ),
-          SizedBox(
-            height: Utils.appBarHeightMargin,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: Utils.appBarHeightMargin,
+        ),
+      ],
     );
   }
 
@@ -110,6 +102,8 @@ class ItemLoginProfile extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
+            // insetPadding:
+            // EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Wrap(
@@ -131,6 +125,7 @@ class ItemLoginProfile extends StatelessWidget {
                             LocalizationService service = LocalizationService();
                             service.changeLocale(AppStrings.english);
                             Navigator.pop(context);
+                            Navigator.pop(context);
                           }),
                       ItemChildLogin(
                           title: AppStrings.germanLanguage.tr,
@@ -138,6 +133,7 @@ class ItemLoginProfile extends StatelessWidget {
                             SessionManager.setLanguage(AppStrings.german);
                             LocalizationService service = LocalizationService();
                             service.changeLocale(AppStrings.german);
+                            Navigator.pop(context);
                             Navigator.pop(context);
                           }),
                     ],

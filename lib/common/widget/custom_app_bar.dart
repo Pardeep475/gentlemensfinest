@@ -24,14 +24,17 @@ class CustomAppBar extends StatelessWidget {
         const Expanded(child: SizedBox()),
         GestureDetector(
           onTap: onHamburgerPressed,
-          child: Image.asset(
-            AppImages.iconHamburgerPng,
-            height: 24.r,
-            width: 24.r,
+          child: Container(
+            color: Colors.transparent,
+            height: 57,
+            width: 57,
+            alignment: Alignment.center,
+            child: Image.asset(
+              AppImages.iconHamburgerPng,
+              height: 24.r,
+              width: 24.r,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 20.w,
         ),
       ],
     );
