@@ -26,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _controller.fetchNotificationApi(acceptList: 1, rejectList: 1);
+      _controller.fetchNotificationApi(acceptList: 'yes', rejectList: 'yes');
     });
   }
 

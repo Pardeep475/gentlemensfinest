@@ -107,7 +107,7 @@ class ItemChildNotification extends StatelessWidget {
                           ),
                         ),
                       ),
-                      item.acceptStatus == '0'
+                      item.acceptStatus == 'new'
                           ? Container(
                               margin: EdgeInsets.only(top: 16.h),
                               decoration: BoxDecoration(
@@ -171,15 +171,15 @@ class ItemChildNotification extends StatelessWidget {
   String getImageBasedOnStatus() {
     // 0 = new booking, 1 = approved, 2 = rejected
     switch (item.acceptStatus) {
-      case '0':
+      case 'new':
         {
           return '';
         }
-      case '1':
+      case 'yes':
         {
           return AppImages.imgApproved;
         }
-      case '2':
+      case 'no':
         {
           return AppImages.imgRejected;
         }

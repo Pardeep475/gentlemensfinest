@@ -52,7 +52,7 @@ class ItemLoginProfile extends StatelessWidget {
                   debugPrint('1 clicked');
                   controller.updateNotificationType(0);
                   controller.fetchNotificationApi(
-                      acceptList: 1, rejectList: 1);
+                      acceptList: 'yes', rejectList: 'yes');
                   Navigator.pop(context);
                 },
               ),
