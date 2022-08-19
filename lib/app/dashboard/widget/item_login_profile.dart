@@ -121,6 +121,7 @@ class ItemLoginProfile extends StatelessWidget {
                       ItemChildLogin(
                           title: AppStrings.englishLanguage.tr,
                           onPressed: () {
+                            controller.language.value = AppStrings.english;
                             SessionManager.setLanguage(AppStrings.english);
                             LocalizationService service = LocalizationService();
                             service.changeLocale(AppStrings.english);
@@ -130,6 +131,7 @@ class ItemLoginProfile extends StatelessWidget {
                       ItemChildLogin(
                           title: AppStrings.germanLanguage.tr,
                           onPressed: () {
+                            controller.language.value = AppStrings.german;
                             SessionManager.setLanguage(AppStrings.german);
                             LocalizationService service = LocalizationService();
                             service.changeLocale(AppStrings.german);

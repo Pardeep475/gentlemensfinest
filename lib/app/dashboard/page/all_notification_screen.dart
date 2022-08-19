@@ -53,6 +53,7 @@ class AllNotificationScreen extends StatelessWidget {
             child: Obx(() {
               return ItemTodayNotification(
                 notification: controller.todayNotificationCount.value,
+                language: controller.language.value,
               );
             }),
           ),
@@ -70,27 +71,38 @@ class AllNotificationScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
                 groupBy: (dynamic element) => element.groupBy,
                 // groupComparator: (value1, value2) => value2.compareTo(value1),
-                groupSeparatorBuilder: (dynamic element) => Container(
-                  margin: EdgeInsets.only(top: 20.h),
-                  alignment: Alignment.centerLeft,
-                  child: AppText(
-                    textAlign: TextAlign.center,
-                    // text: fetchDataAndTime(element),
-                    text: element,
-                    color: Colors.black,
-                    fontFamily: AppStrings.outfitFont,
-                    fontWeight: FontWeight.w500,
-                    textSize: 22.sp,
-                  ),
-                ),
+                groupSeparatorBuilder: (dynamic element) {
+                  String title;
+                  if(element == AppStrings.today){
+                    title =  AppStrings.today.tr;
+                  } else if(element == AppStrings.thisWeek){
+                    title =  AppStrings.thisWeek.tr;
+                  } else {
+                    title =  AppStrings.older.tr;
+                  }
+                  return Container(
+                    margin: EdgeInsets.only(top: 20.h),
+                    alignment: Alignment.centerLeft,
+                    child: AppText(
+                      textAlign: TextAlign.center,
+                      // text: fetchDataAndTime(element),
+                      text: title,
+                      color: Colors.black,
+                      fontFamily: AppStrings.outfitFont,
+                      fontWeight: FontWeight.w500,
+                      textSize: 22.sp,
+                    ),
+                  );
+                },
                 indexedItemBuilder: (context, dynamic element, int index) =>
                     ItemChildNotification(
                   item: element,
-                  lastIndexId: dataList[dataList.length -1 ].bookingId,
+                  lastIndexId: dataList[dataList.length - 1].bookingId,
                   onPressed: (value) => onClickEvent(
                     value: value,
                     id: element.bookingId,
                   ),
+                  language: controller.language.value,
                 ),
                 order: GroupedListOrder.ASC,
                 sort: false,

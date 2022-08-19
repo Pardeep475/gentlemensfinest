@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../../common/app_images.dart';
 import '../../../common/app_strings.dart';
+import '../../../common/local_storage/session_manager.dart';
 import '../../../common/utils.dart';
 import '../../../network/api_provider.dart';
 import '../../../network/modal/booking_details_api_response.dart';
@@ -18,13 +19,18 @@ class DashboardController extends GetxController {
 
   RxList<BookingInfo> dataList = RxList();
 
-
   var todayNotificationCount = 0.obs;
+  var language = AppStrings.english.obs;
 
   @override
   void onInit() {
     super.onInit();
     Utils.logger.e("on init");
+    fetchLanguage();
+  }
+
+  fetchLanguage() async {
+    language.value = await SessionManager.getLanguage() ?? AppStrings.english;
   }
 
   @override
@@ -44,7 +50,6 @@ class DashboardController extends GetxController {
     notificationScreenType.value = 0;
     dataList = RxList();
   }
-
 
   void updateNotificationType(int value) {
     notificationScreenType.value = value;
@@ -70,10 +75,14 @@ class DashboardController extends GetxController {
     }
     return null;
   }
-  
-  parseNotificationData(List<BookingInfo> response){
-    todayNotificationCount.value = response.where((element) => Utils.isSameDate(element.bookingDate)).length;
-    response.sort((a, b) => DateFormat("dd-MMM-yyyy HH:mm:ss").parse(b.bookingDate).compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(a.bookingDate)));
+
+  parseNotificationData(List<BookingInfo> response) {
+    todayNotificationCount.value = response
+        .where((element) => Utils.isSameDate(element.bookingDate))
+        .length;
+    response.sort((a, b) => DateFormat("dd-MMM-yyyy HH:mm:ss")
+        .parse(b.bookingDate)
+        .compareTo(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(a.bookingDate)));
     dataList.addAll(response);
   }
 
@@ -129,7 +138,7 @@ class DashboardController extends GetxController {
           // further modification
           // 0 = all notification, 1 = accept notification, 2 = reject notification
 
-          int value  = dataList.indexWhere((p0) => p0.bookingId == bookingId);
+          int value = dataList.indexWhere((p0) => p0.bookingId == bookingId);
           BookingInfo info = dataList[value];
           info.acceptStatus = acceptReject == 'yes' ? 'yes' : 'no';
           dataList[value] = info;

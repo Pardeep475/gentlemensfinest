@@ -55,11 +55,11 @@ class BookingInfo {
       }
       var dateTime = DateFormat("dd-MMM-yyyy HH:mm:ss").parse(value);
       if(Utils.isSameDateFromDateTime(dateTime)){
-        return AppStrings.today.tr;
+        return AppStrings.today;
       } else if(Utils.checkIfDatesExistInCurrentWeek(dateTime)){
-        return AppStrings.thisWeek.tr;
+        return AppStrings.thisWeek;
       } else {
-        return AppStrings.older.tr;
+        return AppStrings.older;
       }
     }
 

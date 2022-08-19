@@ -11,10 +11,14 @@ import 'common/binding/application_binding.dart';
 import 'common/routes/routes.dart';
 import 'common/services/localization_service.dart';
 import 'common/utils.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Locale locale = await fetchLanguage();
+  timeago.setLocaleMessages('de', timeago.DeMessages());
+  timeago.setLocaleMessages('en', timeago.EnMessages());
   runApp(MyApp(
     locale: locale,
   ));

@@ -14,11 +14,13 @@ class ItemChildNotification extends StatelessWidget {
   final BookingInfo item;
   final int lastIndexId;
   final Function(int value) onPressed;
+  final String language;
 
   const ItemChildNotification(
       {required this.item,
       required this.onPressed,
       required this.lastIndexId,
+      required this.language,
       Key? key})
       : super(key: key);
 
@@ -192,8 +194,9 @@ class ItemChildNotification extends StatelessWidget {
 
   String getTimeAgoFormat() {
     try {
-      return timeago
-          .format(DateFormat("dd-MMM-yyyy HH:mm:ss").parse(item.bookingDate));
+      return timeago.format(
+          DateFormat("dd-MMM-yyyy HH:mm:ss").parse(item.bookingDate),
+          locale: language == AppStrings.english ? 'en' : 'de');
     } catch (e) {
       return '';
     }

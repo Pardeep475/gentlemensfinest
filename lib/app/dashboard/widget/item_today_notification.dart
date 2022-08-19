@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 
 class ItemTodayNotification extends StatelessWidget {
   final int notification;
+  final String language;
 
-  const ItemTodayNotification({this.notification = 0, Key? key})
+  const ItemTodayNotification(
+      {this.notification = 0, required this.language, Key? key})
       : super(key: key);
 
   @override
@@ -19,21 +21,29 @@ class ItemTodayNotification extends StatelessWidget {
           color: Colors.black,
           fontWeight: FontWeight.w400,
           fontSize: 15.sp,
-          fontFamily:  AppStrings.outfitFont,
+          fontFamily: AppStrings.outfitFont,
         ),
-        children:  <TextSpan>[
-          TextSpan(text: ' $notification ${AppStrings.notifications.tr} ',style: TextStyle(
-            color: AppColor.red,
-            fontWeight: FontWeight.w400,
-            fontSize: 15.sp,
-            fontFamily:  AppStrings.outfitFont,
-          ),),
-          TextSpan(text: AppStrings.today.tr.toLowerCase(),style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-            fontSize: 15.sp,
-            fontFamily:  AppStrings.outfitFont,
-          ),),
+        children: <TextSpan>[
+          TextSpan(
+            text: ' $notification ${AppStrings.notifications.tr} ',
+            style: TextStyle(
+              color: AppColor.red,
+              fontWeight: FontWeight.w400,
+              fontSize: 15.sp,
+              fontFamily: AppStrings.outfitFont,
+            ),
+          ),
+          TextSpan(
+            text: language == AppStrings.english
+                ? AppStrings.today.tr.toLowerCase()
+                : '',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+              fontSize: 15.sp,
+              fontFamily: AppStrings.outfitFont,
+            ),
+          ),
         ],
       ),
     );
