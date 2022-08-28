@@ -4,7 +4,7 @@ const Map<String, String> deDE = {
   'check_your_internet_connectivity': 'Überprüfen Sie Ihre Internetverbindung',
   'enter_your_password': 'Geben Sie Ihr Passwort ein',
   'login': 'Anmeldung',
-  'email_is_required': 'E-Mail ist erforderlich',
+  'email_is_required': 'Benutzername wird benötigt',
   'valid_email_validation': 'Bitte geben Sie eine gültige E-Mail-Adresse an',
   'password_is_required': 'Passwort wird benötigt',
   'nothing_here': 'Nichts hier!!!',

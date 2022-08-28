@@ -4,7 +4,7 @@ const Map<String, String> enUS = {
   'check_your_internet_connectivity': 'Check your internet connectivity',
   'enter_your_password': 'Enter your password',
   'login': 'Login',
-  'email_is_required': 'Email is required',
+  'email_is_required': 'Username is required',
   'valid_email_validation': 'Please provide valid email address',
   'password_is_required': 'Password is required',
   'nothing_here': 'Nothing here!!!',

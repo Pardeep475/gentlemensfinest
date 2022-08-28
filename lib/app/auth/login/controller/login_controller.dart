@@ -8,7 +8,6 @@ import '../../../../network/api_provider.dart';
 import '../../../../network/modal/login_api_response.dart';
 
 class LoginController extends GetxController {
-
   var showLoader = false.obs;
 
   String? validateEmail({required String? value}) {
@@ -54,14 +53,20 @@ class LoginController extends GetxController {
       try {
         showLoader.value = true;
         var response = await ApiProvider.apiProvider
-            .loginApi(userName: userName,password: password);
+            .loginApi(userName: userName, password: password);
         if (response != null) {
-          Escort? userData = (response as LoginApiResponse).escort;
-          if(userData != null){
-            Utils.logger.e("token_is:-   ${userData.name}");
-            SessionManager.setUserData(userData);
-            SessionManager.setLogin(true);
-            Get.offAndToNamed(RouteString.dashBoardScreen,);
+          if (response.statusCode == 0) {
+            Utils.errorSnackBar(AppStrings.error, response.message);
+          } else {
+            Escort? userData = (response as LoginApiResponse).escort;
+            if (userData != null) {
+              Utils.logger.e("token_is:-   ${userData.name}");
+              SessionManager.setUserData(userData);
+              SessionManager.setLogin(true);
+              Get.offAndToNamed(
+                RouteString.dashBoardScreen,
+              );
+            }
           }
         }
       } catch (e) {
@@ -72,5 +77,4 @@ class LoginController extends GetxController {
     }
     return null;
   }
-
 }
