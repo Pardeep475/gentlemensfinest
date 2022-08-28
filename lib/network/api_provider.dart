@@ -23,7 +23,12 @@ class ApiProvider {
   static final sessionToken = const Uuid().v4();
 
   static BaseOptions options =
-      BaseOptions(receiveTimeout: 90000000, connectTimeout: 90000000);
+      BaseOptions(receiveTimeout: 90000000, connectTimeout: 90000000,
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      );
 
   static final Dio _dio = Dio(options);
 
@@ -43,9 +48,14 @@ class ApiProvider {
       });
       Response response = await _dio.post(ApiConstants.onLoginApi,
           data: map, options: headerOptions);
-      return LoginApiResponse.fromJson(response.data);
+      if(response.statusCode == 200){
+        return LoginApiResponse.fromJson(response.data);
+      } else {
+        Utils.errorSnackBar(AppStrings.error, LoginApiResponse.fromJson(response.data).message);
+        return null;
+      }
+
     } catch (error) {
-      Utils.errorSnackBar(AppStrings.error, error.toString());
       return null;
     }
   }

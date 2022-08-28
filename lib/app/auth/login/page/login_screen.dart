@@ -17,9 +17,9 @@ class LoginScreen extends StatelessWidget {
       : Get.put(LoginController());
 
   final TextEditingController _emailController =
-      TextEditingController(text: 'daniela');
+      TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController(text: 'daniela');
+      TextEditingController();
   final _formGlobalKey = GlobalKey<FormState>();
 
   @override

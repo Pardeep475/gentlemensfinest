@@ -33,20 +33,20 @@ class ItemProfileScreen extends StatelessWidget {
                 title: AppStrings.detailsFor.tr + bookingInfo.customerName,
                 onBackPressed: () => Navigator.pop(context),
               ),
-              ItemChildProfile(
-                title: '${AppStrings.phone.tr}\n${bookingInfo.phoneNumber}',
-                icon: AppImages.imgPhone,
-                onPressed: () {
-                  debugPrint('1 clicked');
-                },
-              ),
-              ItemChildProfile(
-                title: '${AppStrings.email.tr}\n${bookingInfo.customerEmail}',
-                icon: AppImages.imgEmail,
-                onPressed: () {
-                  debugPrint('1 clicked');
-                },
-              ),
+              // ItemChildProfile(
+              //   title: '${AppStrings.phone.tr}\n${bookingInfo.phoneNumber}',
+              //   icon: AppImages.imgPhone,
+              //   onPressed: () {
+              //     debugPrint('1 clicked');
+              //   },
+              // ),
+              // ItemChildProfile(
+              //   title: '${AppStrings.email.tr}\n${bookingInfo.customerEmail}',
+              //   icon: AppImages.imgEmail,
+              //   onPressed: () {
+              //     debugPrint('1 clicked');
+              //   },
+              // ),
               ItemChildProfile(
                 title: AppStrings.desiredModel.tr,
                 icon: AppImages.imgModal,

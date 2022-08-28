@@ -1,6 +1,6 @@
 const Map<String, String> enUS = {
   'gentleman_description': 'Welcome to Gentlemen’s\nFinest',
-  'enter_your_email': 'Enter your email',
+  'enter_your_email': 'Enter username',
   'check_your_internet_connectivity': 'Check your internet connectivity',
   'enter_your_password': 'Enter your password',
   'login': 'Login',
@@ -38,4 +38,5 @@ const Map<String, String> enUS = {
   'english': 'English',
   'german': 'German',
   'older': 'Older',
+  'error': 'Error',
 };

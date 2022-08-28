@@ -39,15 +39,15 @@ class Utils {
 
   static errorSnackBar(String title, String message) {
     Get.snackbar(
-      title,
-      message,
+      title.tr,
+      message.tr,
       margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 10.h),
       backgroundColor: AppColor.red.withOpacity(0.9),
       borderRadius: 5.sp,
       snackPosition: SnackPosition.BOTTOM,
       colorText: AppColor.red,
       titleText: AppText(
-        text: title,
+        text: title.tr,
         color: Colors.white,
         fontFamily: AppStrings.outfitFont,
         fontWeight: FontWeight.w700,

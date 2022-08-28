@@ -18,10 +18,10 @@ class LoginApiResponse {
   String message;
 
   factory LoginApiResponse.fromJson(Map<String, dynamic> json) => LoginApiResponse(
-    statusCode: json["statusCode"],
-    status: json["status"],
-    escort: Escort.fromJson(json["escort"]),
-    message: json["message"],
+    statusCode: json["statusCode"] ?? 0,
+    status: json["status"] ?? '',
+    escort: json["escort"] == null ? null : Escort.fromJson(json["escort"]),
+    message: json["message"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {

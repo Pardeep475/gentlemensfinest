@@ -1,6 +1,6 @@
 const Map<String, String> deDE = {
   'gentleman_description': 'Willkommen zu Gentlemen’s\nFinest',
-  'enter_your_email': 'Geben sie ihre E-Mail Adresse ein',
+  'enter_your_email': 'Benutzernamen eingeben',
   'check_your_internet_connectivity': 'Überprüfen Sie Ihre Internetverbindung',
   'enter_your_password': 'Geben Sie Ihr Passwort ein',
   'login': 'Anmeldung',
@@ -38,4 +38,5 @@ const Map<String, String> deDE = {
   'older': 'Älter',
   'requests_accepted': 'AngenommeneAnfragen',
   'requests_rejected': 'Abgelehnte Anträge',
+  'error': 'Fehler',
 };
